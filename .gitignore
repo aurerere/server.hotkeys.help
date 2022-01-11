@@ -1,0 +1,9 @@
+.idea
+api/node_modules
+
+.DS_Store
+
+config.json
+
+*.key
+*.pem

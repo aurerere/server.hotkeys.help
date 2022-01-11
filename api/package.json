@@ -1,0 +1,27 @@
+{
+  "name": "hotkeys.help_api",
+  "version": "0.0.1",
+  "description": "The hotkeys.help API",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js"
+  },
+  "author": "aurere",
+  "license": "0BSD",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aurerere/hotkeys.help/tree/main/api"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.17.2",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15"
+  }
+}
