@@ -8,21 +8,21 @@
 
 ## Quick setup
 * In `/`, create a `config.json` file with those attributes
-    ```json
+    ```YAML
     {
       "api": {
         "server": {
-          "port": "" // Your choice
+          "port": "444" # server port
         },
-        "database": {
-          "host": "", // localhost
-          "username": "", // root
+        "database": { # database connection 
+          "host": "localhost", 
+          "username": "root",
           "password": "",
-          "port": 0, // 3306
-          "database": "" // hotkeys.help
+          "port": 3306,
+          "database": "hotkeys.help"
         },
         "bcrypt": {
-          "seed": 0 // any number
+          "seed": 8 # password bcrypt seed (backend)
         }
       }
     }
