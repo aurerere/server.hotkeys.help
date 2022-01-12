@@ -1,14 +1,23 @@
 // LIBS ----------------------------------------------------------------------------------------------------------------
-const bcrypt = require('bcryptjs')
+const   jwt = require("jsonwebtoken"),
+        { privateKey } = require("../rsaKeys");
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
 const db = require('../linker/database').promise();
 
 exports.verify = async function (req, res)
 {
-    let username = req.params.username;
+    const token = jwt.verify(req.params.token, privateKey, { algorithms: ['RS256'] });
 
-    const [verify] = await db.query('SELECT username, token, verified FROM users WHERE username = ?', [username]);
+    if (!token.username)
+        return res.status(404).send({
+            error: {
+                status: 404,
+                message: 'User not found'
+            }
+        });
+
+    const [verify] = await db.query('SELECT username, verified FROM users WHERE username = ?', [token.username]);
 
     // CHECKING IF USERNAME EXISTS
     if (verify.length === 0)
@@ -26,29 +35,16 @@ exports.verify = async function (req, res)
                 status: 403,
                 message: 'Already verified email'
             }
-        })
-
-    let checked = await bcrypt.compare(req.params['token'], verify[0]['token']);
-
-    // CHECKING IF THE MAIL TOKEN === DB TOKEN
-    if (!checked)
-        return res.status(401).send({
-            error: {
-                status: 401,
-                message: 'Invalid token'
-            }
         });
 
     else {
         const [update] =
-            await db.query('UPDATE users SET verified = 1, token = "" WHERE username = ?', [username]);
+            await db.query('UPDATE users SET verified = 1 WHERE username = ?', [token.username]);
 
         if (update.affectedRows === 1) {
             return res.status(200).send({
-                success: {
-                    status: 200,
-                    message: 'successfully verified email'
-                }
+                status: 200,
+                message: 'successfully verified email'
             })
         }
     }

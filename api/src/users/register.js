@@ -1,14 +1,13 @@
 // LIBS ----------------------------------------------------------------------------------------------------------------
 const   bcrypt = require('bcryptjs'),
-        crypto = require('crypto');
+        jwt = require("jsonwebtoken");
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
 const   db = require('../linker/database').promise(),
         mess = require('../mess'),
         config = require('../../../config.json'),
-        sendMail = require('../linker/mail');
-const jwt = require("jsonwebtoken");
-const {privateKey} = require("../rsaKeys");
+        sendMail = require('../linker/mail'),
+        { privateKey } = require("../rsaKeys");
 
 // ---------------------------------------------------------------------------------------------------------------------
 exports.register = async function (req, res)
@@ -80,14 +79,11 @@ exports.register = async function (req, res)
             }
             else {
                 // ADDING THE USER TO THE DB
-                // console.log(info)
-                token = await bcrypt.hash(token, config.api.bcrypt.seed)
                 const [add] = await db.query
-                ('INSERT INTO users(username, email, password, token) VALUES(?, ?, ?, ?)', [
+                ('INSERT INTO users(username, email, password) VALUES(?, ?, ?)', [
                     username,
                     email,
                     hashedPw,
-                    token
                 ]);
 
                 if (add.affectedRows === 1) {

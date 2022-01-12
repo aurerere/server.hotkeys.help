@@ -33,7 +33,7 @@ function sendMail(type, token, email, username, callback) {
             <body style="font-family: sans-serif">
             <h4 style="font-size: 20px; margin-bottom: 0">Hello ${username},</h4><br>
             <p style="margin-top: 0">Thank you for trusting hotkeys.help.</p>
-            <a href="http://localhost:${config.api.server.port}/verify/${username}/${token}">
+            <a href="http://localhost:${config.api.server.port}/verify/${token}">
                 <button style="outline: none; background: #0091BF; padding: 10px 14px 10px 14px; border-radius: 12px; border: none; ">
                     <p style="color: white; font-size: 15px; font-weight: bold; margin: 0">Confirm your email</p>
                 </button>

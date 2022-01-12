@@ -22,7 +22,7 @@ app.route('/register')
 app.route('/login')
     .post(login)
 
-app.route('/verify/:username/:token')
+app.route('/verify/:token')
     .get(verify)
 
 app.route('/me')
