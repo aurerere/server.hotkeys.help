@@ -3,9 +3,9 @@ const   bcrypt = require('bcryptjs'),
         jwt = require('jsonwebtoken');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   db = require('../linker/database').promise(),
-        mess = require('../mess'),
-        { privateKey } = require('../rsaKeys');
+const   db = require('../utils/database').promise(),
+        mess = require('../utils/mess'),
+        { privateKey } = require('../utils/rsaKeys');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -28,8 +28,7 @@ exports.login = async function (req, res)
             }
         });
 
-    try
-    {
+    try {
         let check;
 
         if (mess.isEmail(req.body.identifier))
@@ -67,8 +66,7 @@ exports.login = async function (req, res)
         }
     }
 
-    catch (err)
-    {
+    catch (err) {
         console.log(err);
         return res.status(500).send({
             error: {

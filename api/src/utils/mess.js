@@ -20,4 +20,14 @@ function okUsername (username) {
     );
 }
 
-module.exports = {okUsername, isEmail};
+/**
+ * @param {string} token
+ * @return {RegExpMatchArray}
+ */
+function isToken (token) {
+    return token.match(
+        /(^[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*$)/
+    )
+}
+
+module.exports = {okUsername, isEmail, isToken};

@@ -7,32 +7,40 @@ const   app = require('express')(),
 const   { register } = require('./src/users/register'),
         { login } = require('./src/users/login'),
         { verify } = require('./src/users/verify'),
-        { getUser } = require('./src/users/getUser');
+        { getUser } = require('./src/users/getUser'),
+        pwChange = require('./src/users/pwChange'),
+        { logger } = require('./src/utils/logger');
 
 // APP -----------------------------------------------------------------------------------------------------------------
 const port = require('../config.json').api.server.port;
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
 // AUTH ----------------------------------------------------------------------------------------------------------------
 app.route('/register')
-    .post(register);
+    .post(logger, register);
 
 app.route('/login')
-    .post(login)
+    .post(logger, login)
 
 app.route('/verify/:token')
-    .get(verify)
+    .get(logger, verify)
 
 app.route('/me')
-    .get(getUser, (req, res) => {
+    .get(getUser, logger, (req, res) => {
        res.status(200).send({
-               status: 200,
-               message: `Hello ${req.user.username}`,
-               user: req.user
+           status: 200,
+           message: `${req.user.username} successfully reached`,
+           user: req.user
        });
     });
+
+app.route('/password-change')
+    .get(logger, pwChange.getToken)
+    .post(pwChange.reset)
+    .put(getUser, pwChange.change)
 
 // ROUTES --------------------------------------------------------------------------------------------------------------
 app.route('/')
@@ -43,8 +51,7 @@ app.route('/')
 // 4O4 -----------------------------------------------------------------------------------------------------------------
 app.use((req, res) => {
     res.status(404).send({
-        error:
-            {
+        error: {
                 status: 404,
                 message: 'Not Found'
             }

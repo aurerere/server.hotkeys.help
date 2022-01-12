@@ -1,13 +1,13 @@
-// LIBS ----------------------------------------------------------------------------------------------------------------
-const   jwt = require("jsonwebtoken"),
-        { privateKey } = require("../rsaKeys");
-
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const db = require('../linker/database').promise();
+const   db = require('../utils/database').promise(),
+        { tokenParser } = require('../utils/tokenParser')
 
 exports.verify = async function (req, res)
 {
-    const token = jwt.verify(req.params.token, privateKey, { algorithms: ['RS256'] });
+    const token = tokenParser(req);
+
+    if (token.error)
+        return res.status(403).send(token.error);
 
     if (!token.username)
         return res.status(404).send({

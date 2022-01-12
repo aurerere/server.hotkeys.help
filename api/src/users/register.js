@@ -3,11 +3,11 @@ const   bcrypt = require('bcryptjs'),
         jwt = require("jsonwebtoken");
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   db = require('../linker/database').promise(),
-        mess = require('../mess'),
+const   db = require('../utils/database').promise(),
+        mess = require('../utils/mess'),
         config = require('../../../config.json'),
-        sendMail = require('../linker/mail'),
-        { privateKey } = require("../rsaKeys");
+        sendMail = require('../utils/mail'),
+        { privateKey } = require("../utils/rsaKeys");
 
 // ---------------------------------------------------------------------------------------------------------------------
 exports.register = async function (req, res)
@@ -63,21 +63,22 @@ exports.register = async function (req, res)
         const hashedPw = await bcrypt.hash(req.body.password, config.api.bcrypt.seed);
 
         // VERIFY TOKEN
-        let token = jwt.sign({ username }, privateKey, { algorithm: 'RS256', expiresIn: '24h' })
+        let token = jwt.sign({ username }, privateKey, { algorithm: 'RS256', expiresIn: '24h' });
 
         // SENDING THE VERIFICATION E-MAIL
         sendMail('verify', token, email, username,
         async (err, info) => {
             if (err) {
-                console.log(err)
+                console.log(err);
                 return res.status(500).send({
                     error: {
                         status: 500,
                         message: 'Server Internal error'
                     }
-                })
+                });
             }
             else {
+                console.log(info);
                 // ADDING THE USER TO THE DB
                 const [add] = await db.query
                 ('INSERT INTO users(username, email, password) VALUES(?, ?, ?)', [
@@ -88,11 +89,9 @@ exports.register = async function (req, res)
 
                 if (add.affectedRows === 1) {
                     return res.status(201).send({
-                        success: {
-                            status: 201,
-                            message: 'User successfully added.'
-                        }
-                    })
+                        status: 201,
+                        message: 'User successfully added.'
+                    });
                 }
             }
         });
