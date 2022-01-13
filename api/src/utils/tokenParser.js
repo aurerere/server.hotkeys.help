@@ -18,7 +18,7 @@ exports.tokenParser = function (req) {
         return {
             error: {
                 status: 403,
-                message: 'You must provide a valid token'
+                message: 'You must provide a token'
             }
         };
 
@@ -27,7 +27,7 @@ exports.tokenParser = function (req) {
         return {
             error: {
                 status: 403,
-                message: 'You must provide a valid token'
+                message: 'You must provide a token'
             }
         };
 

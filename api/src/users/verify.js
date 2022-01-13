@@ -7,13 +7,13 @@ exports.verify = async function (req, res)
     const token = tokenParser(req);
 
     if (token.error)
-        return res.status(403).send(token.error);
+        return res.status(403).send(token);
 
     if (!token.username)
-        return res.status(404).send({
+        return res.status(403).send({
             error: {
-                status: 404,
-                message: 'User not found'
+                status: 403,
+                message: 'Invalid token'
             }
         });
 
