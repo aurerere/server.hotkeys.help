@@ -27,12 +27,12 @@ exports.register = async function (req, res)
 
     let errors = [];
     // E-MAIL TEST
-    if (!mess.isEmail(email) || email.length >= 100) errors.push('Invalid email format');
+    if (!mess.isEmail(email) || email.length > 100) errors.push('Invalid email format');
     // USERNAME TEST
-    if (!mess.okUsername(username) || username.length < 3 || username.length >= 20)
+    if (!mess.okUsername(username) || username.length < 3 || username.length > 20)
         errors.push('Invalid username format');
     // PASSWORD TEST
-    if (req.body.password.length <= 8) errors.push('Invalid password format');
+    if (req.body.password.length < 8) errors.push('Invalid password format');
     // RETURN 400 IF EMAIL || USERNAME || PASSWORD === INVALID
     if (errors.length !== 0)
         return res.status(400).send({
