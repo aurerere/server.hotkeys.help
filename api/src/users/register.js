@@ -32,7 +32,7 @@ exports.register = async function (req, res)
     if (!mess.okUsername(username) || username.length < 3 || username.length > 20)
         errors.push('Invalid username format');
     // PASSWORD TEST
-    if (req.body.password.length < 8) errors.push('Invalid password format');
+    if (req.body.password.length < 8 || req.body.password.length > 100) errors.push('Invalid password format');
     // RETURN 400 IF EMAIL || USERNAME || PASSWORD === INVALID
     if (errors.length !== 0)
         return res.status(400).send({

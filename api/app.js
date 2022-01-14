@@ -37,10 +37,13 @@ app.route('/me')
        });
     });
 
-app.route('/password-change')
-    .get(logger, pwChange.getToken)
-    .post(pwChange.reset)
-    .put(getUser, pwChange.change)
+app.route('/password/token')
+    .get(logger, pwChange.getToken);
+
+app.route('/password/change')
+    .get(logger, pwChange.verifyToken)
+    .post(logger, pwChange.reset)
+    .put(getUser, logger, pwChange.change);
 
 // ROUTES --------------------------------------------------------------------------------------------------------------
 app.route('/')

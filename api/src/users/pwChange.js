@@ -99,7 +99,7 @@ async function reset (req, res) {
 
     // IF tokenParser() CAUGHT AN ERROR
     if (token.error)
-        return res.status(403).send(token);
+        return res.status(token.error.status).send(token);
 
     // CHECKS IF TOKEN FORMAT IS OK
     if (!token.id || !token.username || !token.email) {
@@ -111,21 +111,113 @@ async function reset (req, res) {
         });
     }
 
-    let password = await bcrypt.hash(req.body.password, config.api.bcrypt.seed);
-
-    const [getUser] = await db.query(
-        'UPDATE users SET password = ? WHERE id = ? AND username = ? AND email = ?',
-        [password, token.id, token.username, token.email]
-    );
-
-    if (getUser.affectedRows === 1)
-        return res.status(200).send({
-            status: 200,
-            message: 'Password successfully updated'
+    if (req.body.password.length < 8 || req.body.password.length > 100)
+        return res.status(400).send({
+            error: {
+                status: 400,
+                message: 'Invalid password format'
+            }
         });
 
+    let password = await bcrypt.hash(req.body.password, config.api.bcrypt.seed);
+
+    try {
+        const [getUser] = await db.query(
+            'UPDATE users SET password = ? WHERE id = ? AND username = ? AND email = ?',
+            [password, token.id, token.username, token.email]
+        );
+
+        if (getUser.affectedRows === 1)
+            return res.status(200).send({
+                status: 200,
+                message: 'Password successfully updated'
+            });
+
+        else {
+            return res.status(404).send({
+                error: {
+                    status: 404,
+                    message: 'user not found'
+                }
+            });
+        }
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(500).send({
+            error: {
+                status: 404,
+                message: 'user not found'
+            }
+        });
+    }
+
+}
+
+function verifyToken (req, res) {
+    let token = tokenParser(req, 'body');
+
+    if (token.error)
+        return res.status(token.error.status).send(token)
+
+    if (!token.id || !token.username || !token.email) {
+        return res.status(403).send({
+            error: {
+                status: 403,
+                message: 'Invalid token'
+            }
+        });
+    }
+
     else {
-        return res.status(404).send({
+        return res.status(200).send({
+            status: 200,
+            message: 'ready to change'
+        })
+    }
+}
+
+async function change (req, res) {
+    if (!req.body.password)
+        return res.status(400).send({
+            error: {
+                status: 400,
+                message: 'You need to provide a new password'
+            }
+        });
+
+    if (req.body.password.length < 8 || req.body.password.length > 100)
+        return res.status(400).send({
+            error: {
+                status: 400,
+                message: 'Invalid password format'
+            }
+        });
+
+    let password = await bcrypt.hash(req.body.password, config.api.bcrypt.seed);
+
+    try {
+        const [update] = db.query('UPDATE users SET password = ?', [password]);
+
+        if (update.affectedRows === 1)
+            return res.status(200).send({
+                status: 200,
+                message: 'Password successfully updated'
+            });
+
+        else {
+            return res.status(404).send({
+                error: {
+                    status: 404,
+                    message: 'user not found'
+                }
+            });
+        }
+    }
+
+    catch (err) {
+        console.log(err)
+        return res.status(500).send({
             error: {
                 status: 404,
                 message: 'user not found'
@@ -134,8 +226,4 @@ async function reset (req, res) {
     }
 }
 
-async function change (req, res) {
-
-}
-
-module.exports = { getToken, reset, change };
+module.exports = { getToken, reset, change, verifyToken };
