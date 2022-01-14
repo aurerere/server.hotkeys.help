@@ -36,7 +36,7 @@
     }
   * execute this command
     ```shell
-    ssh-keygen -t rsa -b 4096 -m PEM -f privateRsa.key
+    ssh-keygen -t rsa -b 4096 -m PEM -f jwt.key
   * run this script
     ```shell
     node .\dbSetup.js
