@@ -1,6 +1,6 @@
 // LIBS ----------------------------------------------------------------------------------------------------------------
 const   jwt = require('jsonwebtoken'),
-        bcrypt = require('bcryptjs')
+        bcrypt = require('bcryptjs');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
 const   { isEmail } = require('../utils/mess'),
@@ -34,9 +34,9 @@ async function getToken(req, res) {
         if (userCheck.length === 0)
             return res.status(404).send({
                 error: {
-                        status: 404,
-                        message: 'User not Found'
-                    }
+                    status: 404,
+                    message: 'User not Found'
+                }
             });
 
         else {
@@ -69,7 +69,7 @@ async function getToken(req, res) {
                         message: 'An email has been sent to reset the password'
                     });
                 }
-            })
+            });
         }
     }
 
@@ -95,7 +95,7 @@ async function reset (req, res) {
         });
 
     // PARSES THE TOKEN
-    let token = tokenParser(req);
+    let token = tokenParser(req, 'body');
 
     // IF tokenParser() CAUGHT AN ERROR
     if (token.error)

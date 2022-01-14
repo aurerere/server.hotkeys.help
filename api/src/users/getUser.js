@@ -6,7 +6,7 @@ exports.getUser = async function (req, res, next) {
 
     try {
 
-        let token = tokenParser(req);
+        let token = tokenParser(req, 'header');
 
         if (token.error) {
             return res.status(403).send(token);

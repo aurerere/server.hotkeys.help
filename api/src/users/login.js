@@ -61,7 +61,7 @@ exports.login = async function (req, res)
             return res.status(200).send({
                 status: 200,
                 message: 'Successfully connected.',
-                token: jwt.sign({id: check[0].id, password: check[0].password}, privateKey, { algorithm: 'RS256', expiresIn: '24h' })
+                token: jwt.sign({ id: check[0].id, password: check[0].password }, privateKey, { algorithm: 'RS256', expiresIn: '24h' })
             })
         }
     }

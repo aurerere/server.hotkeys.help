@@ -19,14 +19,14 @@
         },
         "database": { # database connection 
           "host": "localhost", 
-          "username": "root",
+          "user": "root",
           "password": "",
           "port": 3306,
           "database": "hotkeys.help"
         },
         "bcrypt": {
           "seed": 8 # password bcrypt seed (backend)
-        }
+        },
         "mail": { # mail service connection 
           "service": "gmail",
           "mail": "example@gmail.com",
@@ -34,3 +34,10 @@
         }
       }
     }
+  * execute this command
+    ```shell
+    ssh-keygen -t rsa -b 4096 -m PEM -f privateRsa.key
+  * run this script
+    ```shell
+    node .\dbSetup.js
+  

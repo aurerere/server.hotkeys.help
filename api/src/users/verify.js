@@ -4,7 +4,7 @@ const   db = require('../utils/database').promise(),
 
 exports.verify = async function (req, res)
 {
-    const token = tokenParser(req);
+    const token = tokenParser(req, 'body');
 
     if (token.error)
         return res.status(403).send(token);
