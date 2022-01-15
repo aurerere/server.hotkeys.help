@@ -22,7 +22,6 @@ const mail = createTransport({
  * @return {function}
  */
 function sendMail(type, token, email, username, callback) {
-    console.log('options');
     if (type === 'verify') {
         mail.sendMail({
             from: config.api.mail.mail,

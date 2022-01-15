@@ -8,7 +8,8 @@ const   { isEmail } = require('../utils/mess'),
         sendMail = require('../utils/mail'),
         { privateKey } = require('../utils/rsaKeys'),
         { tokenParser } = require('../utils/tokenParser'),
-        config = require('../../../config.json');
+        config = require('../../../config.json'),
+        {timeLog, highlight} = require("../utils/logger");
 
 // ---------------------------------------------------------------------------------------------------------------------
 async function getToken(req, res) {
@@ -63,7 +64,7 @@ async function getToken(req, res) {
                     });
                 }
                 else {
-                    console.log(info);
+                    console.log(timeLog() + ' \u001b[31mServer\u001b[0m: E-mail successfully sent to ' + highlight(req.body.email) + '.');
                     return res.status(200).send({
                         status: 200,
                         message: 'An email has been sent to reset the password'

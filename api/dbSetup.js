@@ -1,4 +1,4 @@
-const db = require('./api/src/utils/database');
+const db = require('./src/utils/database');
 
 const message = {
     log: '\33[90;1m[*]\u001b[0m',

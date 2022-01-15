@@ -25,7 +25,7 @@ app.route('/register')
 app.route('/login')
     .post(logger, login)
 
-app.route('/verify/:token')
+app.route('/verify')
     .get(logger, verify)
 
 app.route('/me')

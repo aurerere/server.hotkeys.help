@@ -7,7 +7,8 @@ const   db = require('../utils/database').promise(),
         mess = require('../utils/mess'),
         config = require('../../../config.json'),
         sendMail = require('../utils/mail'),
-        { privateKey } = require("../utils/rsaKeys");
+        { privateKey } = require("../utils/rsaKeys"),
+        { timeLog, highlight } = require('../utils/logger');
 
 // ---------------------------------------------------------------------------------------------------------------------
 exports.register = async function (req, res)
@@ -78,7 +79,7 @@ exports.register = async function (req, res)
                 });
             }
             else {
-                console.log(info);
+                console.log(timeLog() + ' \u001b[31mServer\u001b[0m: E-mail successfully sent to ' + highlight(req.body.email) + '.');
                 // ADDING THE USER TO THE DB
                 const [add] = await db.query
                 ('INSERT INTO users(username, email, password) VALUES(?, ?, ?)', [
