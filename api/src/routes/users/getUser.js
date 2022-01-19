@@ -1,6 +1,6 @@
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   db = require('../utils/database').promise(),
-        { tokenParser } = require('../utils/tokenParser');
+const   db = require('../../utils/database').promise(),
+        { tokenParser } = require('../../utils/tokenParser');
 
 exports.getUser = async function (req, res, next) {
 
@@ -24,10 +24,13 @@ exports.getUser = async function (req, res, next) {
 
         // CHECKS THE TOKEN
         const [check] =
-            await db.query('SELECT id, username, email, perm FROM users WHERE id = ? AND password = ?', [token.id, token.password]);
+            await db.query('SELECT id, username, email, perm, verified, banned FROM users WHERE id = ? AND password = ?', [token.id, token.password]);
 
         if (check.length > 0) {
             req.user = check[0];
+            check[0]['verified'] = check[0].verified === 1;
+            check[0]['banned'] = check[0].banned === 1;
+
             next();
         }
         else {

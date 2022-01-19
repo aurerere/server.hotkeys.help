@@ -19,6 +19,7 @@
     "crypto": "^1.0.1",
     "express": "^4.17.2",
     "fs": "^0.0.1-security",
+    "ip": "^1.1.5",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2",

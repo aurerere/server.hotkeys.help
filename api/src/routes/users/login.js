@@ -3,9 +3,9 @@ const   bcrypt = require('bcryptjs'),
         jwt = require('jsonwebtoken');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   db = require('../utils/database').promise(),
-        mess = require('../utils/mess'),
-        { privateKey } = require('../utils/rsaKeys');
+const   db = require('../../utils/database').promise(),
+        mess = require('../../utils/mess'),
+        { privateKey } = require('../../utils/rsaKeys');
 
 // ---------------------------------------------------------------------------------------------------------------------
 

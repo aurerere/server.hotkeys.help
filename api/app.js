@@ -4,12 +4,12 @@ const   app = require('express')(),
         bodyParser = require('body-parser');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   { register } = require('./src/users/register'),
-        { login } = require('./src/users/login'),
-        { verify } = require('./src/users/verify'),
-        { getUser } = require('./src/users/getUser'),
-        pwChange = require('./src/users/pwChange'),
-        { logger } = require('./src/utils/logger');
+const   { register } = require('./src/routes/users/register'),
+        { login } = require('./src/routes/users/login'),
+        { verify } = require('./src/routes/users/verify'),
+        { getUser } = require('./src/routes/users/getUser'),
+        pwChange = require('./src/routes/users/pwChange'),
+        { logger } = require('./src/routes/misc/logger');
 
 // APP -----------------------------------------------------------------------------------------------------------------
 const port = require('../config.json').api.server.port;
@@ -23,10 +23,10 @@ app.route('/register')
     .post(logger, register);
 
 app.route('/login')
-    .post(logger, login)
+    .post(logger, login);
 
 app.route('/verify')
-    .get(logger, verify)
+    .get(logger, verify);
 
 app.route('/me')
     .get(getUser, logger, (req, res) => {
@@ -63,5 +63,5 @@ app.use((req, res) => {
 
 // SERVER STARTUP ------------------------------------------------------------------------------------------------------
 app.listen(port, () =>
-    console.log(`API is running on http://localhost:${port}`)
+    console.log(`API is running on http://localhost:${port} || http://${require('ip').address()}:${port}`)
 );

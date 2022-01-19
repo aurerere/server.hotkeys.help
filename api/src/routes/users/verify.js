@@ -1,6 +1,6 @@
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   db = require('../utils/database').promise(),
-        { tokenParser } = require('../utils/tokenParser')
+const   db = require('../../utils/database').promise(),
+        { tokenParser } = require('../../utils/tokenParser')
 
 exports.verify = async function (req, res)
 {
