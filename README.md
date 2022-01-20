@@ -10,14 +10,14 @@
 
 ## Quick setup
 * ### In `/` 
-  * create a `config.json` file with those attributes
-    ```YAML
+  * create and fill a `config.json` file with those attributes
+    ```JSON
     {
       "api": {
         "server": {
-          "port": "444" # server port
+          "port": "444"
         },
-        "database": { # database connection 
+        "database": { 
           "host": "localhost", 
           "user": "root",
           "password": "",
@@ -25,9 +25,9 @@
           "database": "hotkeys.help"
         },
         "bcrypt": {
-          "seed": 8 # password bcrypt seed (backend)
+          "seed": 8 
         },
-        "mail": { # mail service connection 
+        "mail": {  
           "service": "gmail",
           "mail": "example@gmail.com",
           "password": ""
