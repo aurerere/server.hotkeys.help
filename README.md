@@ -35,7 +35,7 @@
       }
     }
     
-* ###In `/api`
+* ### In `/api`
   * execute this command
      ```shell
      ssh-keygen -t rsa -b 4096 -m PEM -f jwt.key
