@@ -1,4 +1,4 @@
-# ![logo](logo.svg)
+# <img src="logo.svg" alt="logo" width="200"/>
 
 ## Used technologies
 
