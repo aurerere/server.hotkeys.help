@@ -1,4 +1,4 @@
-# HOTKEYS.HELP ⌨️
+# ![logo](logo.svg)
 
 ## Used technologies
 

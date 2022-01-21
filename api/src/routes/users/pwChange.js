@@ -8,8 +8,7 @@ const   { isEmail } = require('../../utils/mess'),
         sendMail = require('../../utils/mail'),
         { privateKey } = require('../../utils/rsaKeys'),
         { tokenParser } = require('../../utils/tokenParser'),
-        config = require('../../../../config.json')/*,
-        {timeLog, highlight} = require("../utils/logger")*/;
+        config = require('../../../../config.json');
 
 // ---------------------------------------------------------------------------------------------------------------------
 async function getToken(req, res) {
@@ -51,7 +50,7 @@ async function getToken(req, res) {
                 {
                     algorithm: 'RS256',
                     expiresIn: '30m'
-                });
+                }, () => {});
 
             sendMail('resetPassword', token, req.body.email, userCheck[0].username, (err, info) => {
                 if (err) {

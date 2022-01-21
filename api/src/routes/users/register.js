@@ -7,8 +7,8 @@ const   db = require('../../utils/database').promise(),
         mess = require('../../utils/mess'),
         config = require('../../../../config.json'),
         sendMail = require('../../utils/mail'),
-        { privateKey } = require("../../utils/rsaKeys")/*,
-        { timeLog, highlight } = require('../utils/logger')*/;
+        { privateKey } = require('../../utils/rsaKeys'),
+        { timeLog, hl, red } = require('../../utils/coolTerminal');
 
 // ---------------------------------------------------------------------------------------------------------------------
 exports.register = async function (req, res)
