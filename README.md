@@ -38,7 +38,7 @@
       }
     }
     ```
-* ###In `/api`
+* ### In `/api`
   * execute those commands
     ```shell
      npm i
