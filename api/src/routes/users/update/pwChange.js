@@ -3,12 +3,12 @@ const   jwt = require('jsonwebtoken'),
         bcrypt = require('bcryptjs');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   { isEmail } = require('../../utils/mess'),
-        db = require('../../utils/database').promise(),
-        sendMail = require('../../utils/mail'),
-        { privateKey } = require('../../utils/rsaKeys'),
-        { tokenParser } = require('../../utils/tokenParser'),
-        config = require('../../../../config.json');
+const   { isEmail } = require('../../../utils/checkers/checkers'),
+        db = require('../../../utils/db/database').promise(),
+        sendMail = require('../../../utils/mailer/mail'),
+        { privateKey } = require('../../../utils/auth/rsaKeys'),
+        { tokenParser } = require('../../../utils/auth/tokenParser'),
+        config = require('../../../../../config.json');
 
 // ---------------------------------------------------------------------------------------------------------------------
 async function getToken(req, res) {
@@ -29,7 +29,10 @@ async function getToken(req, res) {
         });
 
     try {
-        const [userCheck] = await db.query('SELECT username, id FROM users WHERE email = ?', [req.body.email]);
+        const [userCheck] = await db.query(
+            'SELECT username, id FROM users WHERE email = ?',
+            [req.body.email]
+        );
 
         if (userCheck.length === 0)
             return res.status(404).send({
@@ -50,7 +53,8 @@ async function getToken(req, res) {
                 {
                     algorithm: 'RS256',
                     expiresIn: '30m'
-                }, () => {});
+                },
+            );
 
             sendMail('resetPassword', token, req.body.email, userCheck[0].username, (err, info) => {
                 if (err) {
@@ -63,7 +67,6 @@ async function getToken(req, res) {
                     });
                 }
                 else {
-                    // console.log(timeLog() + ' \u001b[31mServer\u001b[0m: E-mail successfully sent to ' + highlight(req.body.email) + '.');
                     return res.status(200).send({
                         status: 200,
                         message: 'An email has been sent to reset the password'
@@ -172,7 +175,7 @@ function verifyToken (req, res) {
     else {
         return res.status(200).send({
             status: 200,
-            message: 'ready to change'
+            message: 'ready to update'
         })
     }
 }

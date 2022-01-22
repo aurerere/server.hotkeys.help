@@ -3,9 +3,9 @@ const   bcrypt = require('bcryptjs'),
         jwt = require('jsonwebtoken');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   db = require('../../utils/database').promise(),
-        mess = require('../../utils/mess'),
-        { privateKey } = require('../../utils/rsaKeys');
+const   db = require('../../../utils/db/database').promise(),
+        mess = require('../../../utils/checkers/checkers'),
+        { privateKey } = require('../../../utils/auth/rsaKeys');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -61,8 +61,18 @@ exports.login = async function (req, res)
             return res.status(200).send({
                 status: 200,
                 message: 'Successfully connected.',
-                token: jwt.sign({ id: check[0].id, password: check[0].password }, privateKey, { algorithm: 'RS256', expiresIn: '24h' })
-            })
+                token: jwt.sign(
+                    {
+                        id: check[0].id,
+                        password: check[0].password,
+                        email: check[0].email
+                    },
+                    privateKey,
+                    {
+                        algorithm: 'RS256',
+                        expiresIn: '1h'
+                    })
+            });
         }
     }
 

@@ -1,6 +1,6 @@
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   db = require('../../utils/database').promise(),
-        { tokenParser } = require('../../utils/tokenParser')
+const   db = require('../../../utils/db/database').promise(),
+        { tokenParser } = require('../../../utils/auth/tokenParser')
 
 exports.verify = async function (req, res)
 {
@@ -17,7 +17,8 @@ exports.verify = async function (req, res)
             }
         });
 
-    const [verify] = await db.query('SELECT username, verified FROM users WHERE username = ?', [token.username]);
+    const [verify] =
+        await db.query('SELECT username, verified FROM users WHERE username = ?', [token.username]);
 
     // CHECKING IF USERNAME EXISTS
     if (verify.length === 0)

@@ -1,6 +1,6 @@
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   db = require('../../utils/database').promise(),
-        { tokenParser } = require('../../utils/tokenParser');
+const   db = require('../../../utils/db/database').promise(),
+        { tokenParser } = require('../../../utils/auth/tokenParser');
 
 exports.getUser = async function (req, res, next) {
 
@@ -13,7 +13,7 @@ exports.getUser = async function (req, res, next) {
         }
 
         // CHECKS IF TOKEN FORMAT IS OK
-        if (!token.id || !token.password) {
+        if (!token.id || !token.password || !token.email) {
             return res.status(403).send({
                 error: {
                     status: 403,
@@ -24,7 +24,10 @@ exports.getUser = async function (req, res, next) {
 
         // CHECKS THE TOKEN
         const [check] =
-            await db.query('SELECT id, username, email, perm, verified, banned FROM users WHERE id = ? AND password = ?', [token.id, token.password]);
+            await db.query(
+                'SELECT id, username, email, perm, verified, banned FROM users WHERE id = ? AND password = ? AND email = ?',
+                [token.id, token.password, token.email]
+            );
 
         if (check.length > 0) {
             req.user = check[0];

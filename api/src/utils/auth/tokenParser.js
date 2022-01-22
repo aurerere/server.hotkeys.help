@@ -2,8 +2,8 @@
 const jwt = require("jsonwebtoken");
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   { privateKey } = require("../utils/rsaKeys"),
-        { isToken } = require("./mess");
+const   { privateKey } = require("./rsaKeys"),
+        { isToken } = require("../checkers/checkers");
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**

@@ -2,7 +2,7 @@
 const { createTransport } = require('nodemailer');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const config = require('../../../config.json');
+const config = require('../../../../config.json');
 
 // INIT THE MAILER
 const mail = createTransport({
@@ -19,7 +19,7 @@ const mail = createTransport({
  * @param {string} email
  * @param {string} username
  * @param {function} callback
- * @return {function}
+ * @return {callback}
  */
 function sendMail(type, token, email, username, callback) {
     if (type === 'verify') {

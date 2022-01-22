@@ -2,7 +2,7 @@
 const { createConnection } = require('mysql2');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const config = require('../../../config.json');
+const config = require('../../../../config.json');
 
 const db = createConnection({
     host: config.api.database.host,

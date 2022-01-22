@@ -30,4 +30,4 @@ function isToken (token) {
     )
 }
 
-module.exports = {okUsername, isEmail, isToken};
+module.exports = { okUsername, isEmail, isToken };

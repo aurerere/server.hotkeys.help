@@ -4,12 +4,13 @@ const   app = require('express')(),
         bodyParser = require('body-parser');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   { register } = require('./src/routes/users/register'),
-        { login } = require('./src/routes/users/login'),
-        { verify } = require('./src/routes/users/verify'),
-        { getUser } = require('./src/routes/users/getUser'),
-        pwChange = require('./src/routes/users/pwChange'),
-        { logger } = require('./src/routes/misc/logger');
+const   { register } = require('./src/routes/users/auth/register'),
+        { login } = require('./src/routes/users/auth/login'),
+        { verify } = require('./src/routes/users/verify/verify'),
+        { getUser } = require('./src/routes/users/auth/getUser'),
+        pwChange = require('./src/routes/users/update/pwChange'),
+        { logger } = require('./src/routes/misc/logger'),
+        { vSend } = require("./src/routes/users/verify/vSend");
 
 // APP -----------------------------------------------------------------------------------------------------------------
 const port = require('../config.json').api.server.port;
@@ -20,7 +21,10 @@ app.use(cors());
 
 // AUTH ----------------------------------------------------------------------------------------------------------------
 app.route('/register')
-    .post(logger, register);
+    .post(logger, register, vSend);
+
+app.route('/verify/resend')
+    .get(getUser, logger, vSend)
 
 app.route('/login')
     .post(logger, login);
@@ -40,10 +44,11 @@ app.route('/me')
 app.route('/password/token')
     .get(logger, pwChange.getToken);
 
-app.route('/password/change')
+app.route('/password/update')
     .get(logger, pwChange.verifyToken)
     .post(logger, pwChange.reset)
     .put(getUser, logger, pwChange.change);
+
 
 // ROUTES --------------------------------------------------------------------------------------------------------------
 app.route('/')

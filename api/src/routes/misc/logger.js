@@ -1,5 +1,5 @@
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const {hl, red, timeLog, method} = require('../../utils/coolTerminal');
+const { hl, red, timeLog, method } = require('../../utils/server/coolTerminal');
 
 exports.logger = function (req, res, next) {
 

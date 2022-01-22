@@ -1,17 +1,13 @@
 // LIBS ----------------------------------------------------------------------------------------------------------------
-const   bcrypt = require('bcryptjs'),
-        jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
-const   db = require('../../utils/database').promise(),
-        mess = require('../../utils/mess'),
-        config = require('../../../../config.json'),
-        sendMail = require('../../utils/mail'),
-        { privateKey } = require('../../utils/rsaKeys'),
-        { timeLog, hl, red } = require('../../utils/coolTerminal');
+const   db = require('../../../utils/db/database').promise(),
+        mess = require('../../../utils/checkers/checkers'),
+        config = require('../../../../../config.json');
 
 // ---------------------------------------------------------------------------------------------------------------------
-exports.register = async function (req, res)
+exports.register = async function (req, res, next)
 {
     if (!req.body.email || !req.body.username || !req.body.password) {
         return res.status(400).send({
@@ -63,39 +59,18 @@ exports.register = async function (req, res)
         // PW BCRYPT HASH
         const hashedPw = await bcrypt.hash(req.body.password, config.api.bcrypt.seed);
 
-        // VERIFY TOKEN
-        let token = jwt.sign({ username }, privateKey, { algorithm: 'RS256', expiresIn: '24h' });
+        // ADDING THE USER TO THE DB
+        const [add] = await db.query
+        ('INSERT INTO users(username, email, password) VALUES(?, ?, ?)', [
+            username,
+            email,
+            hashedPw,
+        ]);
 
-        // SENDING THE VERIFICATION E-MAIL
-        sendMail('verify', token, email, username,
-        async (err, info) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).send({
-                    error: {
-                        status: 500,
-                        message: 'Server Internal error'
-                    }
-                });
-            }
-            else {
-                // console.log(timeLog() + ' \u001b[31mServer\u001b[0m: E-mail successfully sent to ' + highlight(req.body.email) + '.');
-                // ADDING THE USER TO THE DB
-                const [add] = await db.query
-                ('INSERT INTO users(username, email, password) VALUES(?, ?, ?)', [
-                    username,
-                    email,
-                    hashedPw,
-                ]);
-
-                if (add.affectedRows === 1) {
-                    return res.status(201).send({
-                        status: 201,
-                        message: 'User successfully added.'
-                    });
-                }
-            }
-        });
+        if (add.affectedRows === 1) {
+            req.justBeforeRegistered = true;
+            next();
+        }
     }
 
     catch (err) {
@@ -107,4 +82,4 @@ exports.register = async function (req, res)
             }
         });
     }
-}
+};
