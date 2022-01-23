@@ -1,8 +1,7 @@
 # <img src="logo.svg" alt="logo" width="200"/>
+# The hotkeys.help API 
 
-## Most used node libs
-
-### API
+## Most used node modules
 * [ExpressJS](https://expressjs.com/)
 * [BcryptJS](https://www.npmjs.com/package/bcryptjs)
 * [mysql2](https://www.npmjs.com/package/mysql2)
