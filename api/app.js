@@ -1,11 +1,12 @@
 // LIBS ----------------------------------------------------------------------------------------------------------------
-const   app = require('express')(),
+const   express = require('express'),
+        multer = require('multer'),
         cors = require('cors'),
         bodyParser = require('body-parser');
 
 // LOCAL ---------------------------------------------------------------------------------------------------------------
 const   { register } = require('./src/routes/users/auth/register'),
-        { login } = require('./src/routes/users/auth/login'),
+        { login } = require(  './src/routes/users/auth/login'),
         { verify } = require('./src/routes/users/verify/verify'),
         { getUser } = require('./src/routes/users/auth/getUser'),
         pwChange = require('./src/routes/users/update/pwChange'),
@@ -15,9 +16,15 @@ const   { register } = require('./src/routes/users/auth/register'),
 // APP -----------------------------------------------------------------------------------------------------------------
 const port = require('../config.json').api.server.port;
 
+const   app = express(),
+        storage = multer.memoryStorage(),
+        upload = multer({ storage });
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.static('./uploaded'));
+
 
 // AUTH ----------------------------------------------------------------------------------------------------------------
 app.route('/register')
@@ -68,5 +75,5 @@ app.use((req, res) => {
 
 // SERVER STARTUP ------------------------------------------------------------------------------------------------------
 app.listen(port, () =>
-    console.log(`API is running on http://localhost:${port} || http://${require('ip').address()}:${port}`)
+    console.log(`API is running on http://localhost:${port} | http://${require('ip').address()}:${port}`)
 );

@@ -31,6 +31,7 @@ exports.getUser = async function (req, res, next) {
 
         if (check.length > 0) {
             req.user = check[0];
+
             check[0]['verified'] = check[0].verified === 1;
             check[0]['banned'] = check[0].banned === 1;
 

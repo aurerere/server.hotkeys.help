@@ -53,12 +53,11 @@ function sendMail(type, token, email, username, callback) {
         mail.sendMail({
             from: config.api.mail.mail,
             to: email,
-            subject: `hotkeys.help - please confirm your mail address`,
+            subject: `hotkeys.help - Reset your password here`,
             html: `
             <!DOCTYPE HTML>
             <body style="font-family: sans-serif">
             <h4 style="font-size: 20px; margin-bottom: 0">Hello ${username},</h4><br>
-            <p style="margin-top: 0">Thank you for trusting hotkeys.help.</p>
             <a href="#">
                 <button style="outline: none; background: #0091BF; padding: 10px 14px 10px 14px; border-radius: 12px; border: none; cursor: pointer">
                     <p style="color: white; font-size: 15px; font-weight: bold; margin: 0">Reset your password</p>
