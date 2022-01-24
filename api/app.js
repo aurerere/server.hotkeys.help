@@ -11,7 +11,9 @@ const   { register } = require('./src/routes/users/auth/register'),
         { getUser } = require('./src/routes/users/auth/getUser'),
         pwChange = require('./src/routes/users/update/pwChange'),
         { logger } = require('./src/routes/misc/logger'),
-        { vSend } = require("./src/routes/users/verify/vSend");
+        { vSend } = require("./src/routes/users/verify/vSend"),
+        { me } = require('./src/routes/users/profile/me'),
+        { newProfilePicture } = require('./src/routes/users/profile/newProfilePicture')
 
 // APP -----------------------------------------------------------------------------------------------------------------
 const port = require('../config.json').api.server.port;
@@ -23,39 +25,39 @@ const   app = express(),
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static('./uploaded'));
+app.use(express.static('./files'));
 
 
-// AUTH ----------------------------------------------------------------------------------------------------------------
-app.route('/register')
+// USER ----------------------------------------------------------------------------------------------------------------
+
+// REGISTER
+app.route('/user/register')
     .post(logger, register, vSend);
 
-app.route('/verify/resend')
-    .get(getUser, logger, vSend)
-
-app.route('/login')
-    .post(logger, login);
-
-app.route('/verify')
+app.route('/user/verify')
     .get(logger, verify);
 
-app.route('/me')
-    .get(getUser, logger, (req, res) => {
-       res.status(200).send({
-           status: 200,
-           message: `${req.user.username} successfully reached`,
-           user: req.user
-       });
-    });
+app.route('/user/verify/resend')
+    .get(getUser, logger, vSend);
 
-app.route('/password/token')
-    .get(logger, pwChange.getToken);
+// LOGIN
+app.route('/user/login')
+    .post(logger, login);
 
-app.route('/password/update')
+app.route('/user/password/update')
     .get(logger, pwChange.verifyToken)
     .post(logger, pwChange.reset)
     .put(getUser, logger, pwChange.change);
 
+app.route('/user/password/token')
+    .get(logger, pwChange.getToken);
+
+// PROFILE
+app.route('/user/me')
+    .get(getUser, logger, me);
+
+app.route('/user/me/picture')
+    .post(getUser, logger, upload.single('picture'), newProfilePicture)
 
 // ROUTES --------------------------------------------------------------------------------------------------------------
 app.route('/')

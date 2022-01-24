@@ -50,7 +50,7 @@ exports.vSend = async function (req, res) {
     // GET user
     let [check] =
         await db.query(
-            'SELECT username, verified FROM users WHERE email = ?', [email]
+            'SELECT email, username, verified, id FROM users WHERE email = ?', [email]
         );
 
     // CHECKS IF USER EXISTS
@@ -76,7 +76,7 @@ exports.vSend = async function (req, res) {
     else {
         let token = jwt.sign(
             {
-                username: check[0].username
+                id: check[0].id
             },
             privateKey,
             {

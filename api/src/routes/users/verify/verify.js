@@ -9,7 +9,7 @@ exports.verify = async function (req, res)
     if (token.error)
         return res.status(403).send(token);
 
-    if (!token.username)
+    if (!token.id)
         return res.status(403).send({
             error: {
                 status: 403,
@@ -18,7 +18,7 @@ exports.verify = async function (req, res)
         });
 
     const [verify] =
-        await db.query('SELECT username, verified FROM users WHERE username = ?', [token.username]);
+        await db.query('SELECT username, verified FROM users WHERE id = ?', [token.id]);
 
     // CHECKING IF USERNAME EXISTS
     if (verify.length === 0)
@@ -40,7 +40,7 @@ exports.verify = async function (req, res)
 
     else {
         const [update] =
-            await db.query('UPDATE users SET verified = 1 WHERE username = ?', [token.username]);
+            await db.query('UPDATE users SET verified = 1 WHERE id = ?', [token.id]);
 
         if (update.affectedRows === 1) {
             return res.status(200).send({
