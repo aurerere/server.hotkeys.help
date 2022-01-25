@@ -19,7 +19,8 @@ db.query('DROP TABLE IF EXISTS `users`', (err, res) => {
 
         db.query(
             'CREATE TABLE IF NOT EXISTS `users` ' +
-            '( `id` int(11) NOT NULL AUTO_INCREMENT, `username` varchar(20) ' +
+            '( `id` int(11) NOT NULL AUTO_INCREMENT, ' +
+            '`username` varchar(20) ' +
             'COLLATE utf8mb4_bin NOT NULL, ' +
             '`email` varchar(100) COLLATE utf8mb4_bin NOT NULL, `password` varchar(400) ' +
             'COLLATE utf8mb4_bin NOT NULL, ' +
@@ -28,6 +29,8 @@ db.query('DROP TABLE IF EXISTS `users`', (err, res) => {
             '`verified` tinyint(1) NOT NULL DEFAULT \'0\', ' +
             '`banned` tinyint(1) NOT NULL DEFAULT \'0\', ' +
             '`trustFactor` int(11) NOT NULL DEFAULT \'0\', ' +
+            '`profilePicture` VARCHAR(50)' +
+            'COLLATE utf8mb4_bin NOT NULL, ' +
             'PRIMARY KEY (`id`) ) ENGINE=MyISAM ' +
             'DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin',
 

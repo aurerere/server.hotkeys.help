@@ -61,7 +61,7 @@ exports.register = async function (req, res, next)
 
         // ADDING THE USER TO THE DB
         const [add] = await db.query
-        ('INSERT INTO users(username, email, password) VALUES(?, ?, ?)', [
+        ('INSERT INTO users(username, email, password, profilePicture) VALUES(?, ?, ?, "")', [
             username,
             email,
             hashedPw,

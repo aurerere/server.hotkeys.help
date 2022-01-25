@@ -17,7 +17,10 @@
     {
       "api": {
         "server": {
-          "port": "444"
+          "port": "444",
+          "online": false,
+          "lan": true,
+          "baseurl": "https://api.hotkeys.help",
         },
         "database": { 
           "host": "localhost", 

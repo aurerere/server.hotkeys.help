@@ -5,7 +5,7 @@ const method = {
     DELETE: '\u001b[31mDELETE\u001b[0m' // RED
 };
 
-module.exports = {timeLog, hl, red, method};
+module.exports = { timeLog, hl, red, method };
 
 function timeLog() {
     return '\33[90;1m[' + new Date().toString().replace(/\s(?=[^\s]*\()\((.*?)\)/, '') + ']\u001b[0m';

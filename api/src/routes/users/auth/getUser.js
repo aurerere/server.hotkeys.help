@@ -25,7 +25,8 @@ exports.getUser = async function (req, res, next) {
         // CHECKS THE TOKEN
         const [check] =
             await db.query(
-                'SELECT id, username, email, perm, verified, banned FROM users WHERE id = ? AND password = ? AND email = ?',
+                'SELECT id, username, email, profilePicture, perm, trustFactor, verified, banned ' +
+                'FROM users WHERE id = ? AND password = ? AND email = ?',
                 [token.id, token.password, token.email]
             );
 
