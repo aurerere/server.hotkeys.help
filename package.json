@@ -1,0 +1,29 @@
+{
+  "name": "api.hotkeys.help",
+  "version": "0.0.1",
+  "description": "the hotkeys.help API",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "nodemon src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aurerere/api.hotkeys.help.git"
+  },
+  "author": "aurere",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aurerere/api.hotkeys.help/issues"
+  },
+  "homepage": "https://github.com/aurerere/api.hotkeys.help#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
